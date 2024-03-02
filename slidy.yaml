@@ -1,0 +1,45 @@
+slidy: '1'
+variables:
+  customMessage: "Complete"  
+
+scripts:
+  
+  doctor: flutter doctor
+
+  clean:
+    name: "Clean"
+    description: 'minha descricao'
+    run: flutter clean
+
+  cleanup:
+    description: "cleanup project"
+    steps:
+      - name: "Clean"
+        run: flutter clean
+        
+      - name: "GetPackages"
+        description: "Get packages"
+        run: flutter pub get
+
+      - name: "PodClean"
+        description: "Execute pod clean"
+        shell: bash
+        condition: "${System.operatingSystem} == macos"
+        working-directory: ios
+        run: |-
+          rm Podfile.lock
+          pod deintegrate
+          pod update
+          pod install
+
+      - run: echo ${Local.var.customMessage} 
+
+  runner: 
+    name: "Runner"
+    description: "Execute build_runner"
+    run: flutter pub run build_runner build --delete-conflicting-outputs
+
+  runner_watch:
+    name: "Runner Watch"
+    description: "Execute build_runner watch"
+    run: flutter pub run build_runner watch --delete-conflicting-outputs
