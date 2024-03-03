@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mk_zap_app/app/config/router_map.dart';
+import 'package:mk_zap_app/app/widgets/custom_scaffold.dart';
+import 'package:mk_zap_app/app/widgets/custom_text_field.dart';
 import 'login_store.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return CustomScaffold(
+      showDrawer: false,
       body: Observer(
         builder: (context) => Padding(
           padding: const EdgeInsets.all(30.0),
@@ -45,38 +48,32 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 60),
               const Text(
                 'Bem-vindo ao app!',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const Text(
                 'Faça seu login',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 20),
-              TextField(
+              CustomTextField(
                 controller: _loginController,
-                decoration: InputDecoration(
-                  labelText: 'Login',
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
+                labelText: 'Login',
                 onChanged: (value) {
                   validateInput(value);
                 },
               ),
               const SizedBox(height: 20),
-              TextField(
+              CustomTextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Senha',
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
+                labelText: 'Senha',
                 obscureText: true,
                 onChanged: (value) {
                   validateInput(value);
@@ -89,8 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 62, 90, 73),
+                          backgroundColor: Theme.of(context).primaryColor,
                           minimumSize: Size(constraints.maxWidth * 0.7,
                               50), // 50% da largura da tela
                         ),
@@ -99,31 +95,32 @@ class _LoginPageState extends State<LoginPage> {
                               _passwordController.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text(
-                                      'Por favor, preencha todos os campos')),
+                                content:
+                                    Text('Por favor, preencha todos os campos'),
+                              ),
                             );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      'Login efetuado com sucesso! Redirecionando...')),
-                            );
-                            Modular.to.pushReplacementNamed('/dashboard');
+                            Modular.to
+                                .pushReplacementNamed(RouterMap.dashboard);
                           }
                         },
-                        child: const Text('Entrar',
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.white)),
+                        child: const Text(
+                          'Entrar',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
                       ),
                       const SizedBox(height: 20), // Espaçamento entre os botões
                       TextButton(
                         onPressed: () {
                           Modular.to.pushNamed(RouterMap.novoUsuario);
                         },
-                        child: const Text('Cadastre-se',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 62, 90, 73))),
+                        child: const Text(
+                          'Cadastre-se',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   );

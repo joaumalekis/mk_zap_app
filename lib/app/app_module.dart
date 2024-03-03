@@ -2,9 +2,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mk_zap_app/app/config/router_map.dart';
 import 'package:mk_zap_app/app/modules/campanhas/campanhas_module.dart';
 import 'package:mk_zap_app/app/modules/clientes/clientes_module.dart';
+import 'package:mk_zap_app/app/modules/clientes/editar_cliente/editar_cliente_module.dart';
 import 'package:mk_zap_app/app/modules/configuracoes/configuracoes_module.dart';
 import 'package:mk_zap_app/app/modules/dashboard/dashboard_module.dart';
-import 'package:mk_zap_app/app/modules/novo_usuario/novoUsuario_module.dart';
+import 'package:mk_zap_app/app/modules/novo_usuario/novo_usuario_module.dart';
 
 import 'modules/login/login_module.dart';
 
@@ -20,5 +21,6 @@ class AppModule extends Module {
     r.module(RouterMap.campanhas, module: CampanhasModule());
     r.module(RouterMap.configuracoes, module: ConfiguracoesModule());
     r.module(RouterMap.novoUsuario, module: NovoUsuarioModule());
+    r.module(RouterMap.editarClientes, module: EditarClienteModule());
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mk_zap_app/app/config/router_map.dart';
+import 'package:mk_zap_app/app/widgets/custom_scaffold.dart';
 
 class DashboardPage extends StatefulWidget {
   final String title;
@@ -14,21 +15,21 @@ class DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    if (index == 0) {
-      Navigator.of(context).pushNamed(RouterMap.clientes);
+    if (_selectedIndex != index && index == 0) {
+      Navigator.of(context).pushNamed(RouterMap.dashboard);
     }
 
-    if (index == 1) {
+    if (_selectedIndex != index && index == 1) {
       Navigator.of(context).pushNamed(RouterMap.campanhas);
     }
 
-    if (index == 2) {
+    if (_selectedIndex != index && index == 2) {
       Navigator.of(context).pushReplacementNamed(RouterMap.login);
     }
+
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   List<Map<String, dynamic>> menuItems = [
@@ -50,15 +51,11 @@ class DashboardPageState extends State<DashboardPage> {
       'color': Colors.blue,
       'route': '/configuracoes'
     },
-    // Adicione mais itens aqui
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+    return CustomScaffold(
       body: Padding(
         padding: const EdgeInsets.all(18.0),
         child: GridView.count(
@@ -115,25 +112,6 @@ class DashboardPageState extends State<DashboardPage> {
             );
           }),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Campanhas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.logout),
-            label: 'Sair',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
       ),
     );
   }
